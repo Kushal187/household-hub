@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expenses - HouseholdHub</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>"
+    />
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/nav.css" />
+    <link rel="stylesheet" href="/css/forms.css" />
+    <link rel="stylesheet" href="/css/expenses.css" />
+    <link rel="stylesheet" href="/css/toast.css" />
+  </head>
+  <body>
+    <nav class="main-nav">
+      <div class="nav-brand">
+        <a href="/">HouseholdHub</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/chores.html">Chores</a></li>
+        <li><a href="/expenses.html" class="active">Expenses</a></li>
+      </ul>
+    </nav>
+
+    <main class="expenses-container">
+      <header class="page-header">
+        <h1>Expense Tracker</h1>
+        <p>Track and split shared household expenses</p>
+      </header>
+
+      <section class="balance-summary" id="balance-summary">
+        <h2>Balance Summary</h2>
+        <div class="balances" id="balances">
+          <p class="loading">Loading balances...</p>
+        </div>
+      </section>
+
+      <section class="expense-form-section">
+        <h2>Add New Expense</h2>
+        <form id="expense-form">
+          <div class="form-group">
+            <label for="expense-description">Description</label>
+            <input
+              type="text"
+              id="expense-description"
+              name="description"
+              placeholder="e.g. Groceries from Trader Joe's"
+              required
+            />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="expense-amount">Amount ($)</label>
+              <input
+                type="number"
+                id="expense-amount"
+                name="amount"
+                step="0.01"
+                min="0.01"
+                placeholder="0.00"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="expense-paidBy">Paid By</label>
+              <select id="expense-paidBy" name="paidBy" required>
+                <option value="">Select person</option>
+                <option value="Harsh">Harsh</option>
+                <option value="Kushal">Kushal</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="expense-category">Category</label>
+              <select id="expense-category" name="category">
+                <option value="other">Other</option>
+                <option value="groceries">Groceries</option>
+                <option value="utilities">Utilities</option>
+                <option value="rent">Rent</option>
+                <option value="food">Food</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="expense-date">Date</label>
+              <input type="date" id="expense-date" name="date" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Split Between</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  name="splitBetween"
+                  value="Harsh"
+                  checked
+                />
+                Harsh
+              </label>
+              <label class="checkbox-label">
+                <input
+                  type="checkbox"
+                  name="splitBetween"
+                  value="Kushal"
+                  checked
+                />
+                Kushal
+              </label>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Add Expense</button>
+        </form>
+      </section>
+
+      <section class="expense-filters">
+        <label for="filter-category">Category:</label>
+        <select id="filter-category">
+          <option value="">All</option>
+          <option value="groceries">Groceries</option>
+          <option value="utilities">Utilities</option>
+          <option value="rent">Rent</option>
+          <option value="food">Food</option>
+          <option value="other">Other</option>
+        </select>
+        <label for="filter-paidBy">Paid By:</label>
+        <select id="filter-paidBy">
+          <option value="">All</option>
+          <option value="Harsh">Harsh</option>
+          <option value="Kushal">Kushal</option>
+        </select>
+      </section>
+
+      <section class="expense-list" id="expense-list">
+        <p class="loading">Loading expenses...</p>
+      </section>
+
+      <div class="pagination" id="pagination"></div>
+    </main>
+
+    <script src="/js/toast.js"></script>
+    <script src="/js/expenses.js"></script>
+  </body>
+</html>

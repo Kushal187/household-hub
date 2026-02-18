@@ -1,0 +1,274 @@
+.expenses-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  font-size: 1.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.page-header p {
+  color: var(--text-muted);
+}
+
+.balance-summary {
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+
+.balance-summary h2 {
+  font-size: 1.15rem;
+  margin-bottom: 1rem;
+}
+
+.balances {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.balance-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius);
+  min-width: 140px;
+}
+
+.balance-card.positive {
+  background: #dcfce7;
+  border: 1px solid #bbf7d0;
+}
+
+.balance-card.negative {
+  background: #fee2e2;
+  border: 1px solid #fecaca;
+}
+
+.balance-name {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.balance-amount {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.balance-card.positive .balance-amount {
+  color: #166534;
+}
+
+.balance-card.negative .balance-amount {
+  color: #991b1b;
+}
+
+.balance-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.15rem;
+}
+
+.expense-form-section {
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+
+.expense-form-section h2 {
+  font-size: 1.15rem;
+  margin-bottom: 1rem;
+}
+
+.checkbox-group {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.expense-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.expense-filters label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.expense-filters select {
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  background: var(--surface);
+}
+
+.expense-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.expense-table th,
+.expense-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.expense-table th {
+  background: #f1f5f9;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.expense-table tr {
+  border-bottom: 1px solid var(--border);
+}
+
+.expense-table tr:last-child {
+  border-bottom: none;
+}
+
+.expense-table tr.settled {
+  opacity: 0.6;
+}
+
+.category-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.category-groceries {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.category-utilities {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.category-rent {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.category-food {
+  background: #fce7f3;
+  color: #9d174d;
+}
+
+.category-other {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-settled {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-unsettled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.action-cell {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.page-info {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.loading,
+.empty,
+.error {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+}
+
+.error {
+  color: var(--danger);
+}
+
+@media (max-width: 768px) {
+  .expenses-container {
+    padding: 1.25rem;
+  }
+
+  .expense-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .expense-filters {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .balances {
+    flex-direction: column;
+  }
+
+  .balance-card {
+    min-width: auto;
+    width: 100%;
+  }
+}
