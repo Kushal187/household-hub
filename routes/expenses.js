@@ -3,6 +3,8 @@ import {
   getAllExpenses,
   getExpenseById,
   createExpense,
+  updateExpense,
+  deleteExpense,
   getBalanceSummary,
 } from "../db/expensesDB.js";
 
@@ -54,6 +56,32 @@ router.post("/", async (req, res) => {
   } catch (err) {
     console.error("Error creating expense:", err);
     res.status(500).json({ error: "Failed to create expense" });
+  }
+});
+
+router.put("/:id", async (req, res) => {
+  try {
+    const updated = await updateExpense(req.params.id, req.body);
+    if (!updated) {
+      return res.status(404).json({ error: "Expense not found" });
+    }
+    res.json(updated);
+  } catch (err) {
+    console.error("Error updating expense:", err);
+    res.status(500).json({ error: "Failed to update expense" });
+  }
+});
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const deleted = await deleteExpense(req.params.id);
+    if (!deleted) {
+      return res.status(404).json({ error: "Expense not found" });
+    }
+    res.json({ message: "Expense deleted" });
+  } catch (err) {
+    console.error("Error deleting expense:", err);
+    res.status(500).json({ error: "Failed to delete expense" });
   }
 });
 
