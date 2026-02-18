@@ -12,6 +12,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
+    "seed:chores": "node scripts/seedChores.js",
     "format": "prettier . --write",
     "lint": "eslint ."
   },
