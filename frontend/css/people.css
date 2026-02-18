@@ -66,6 +66,10 @@
 }
 
 .person-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
   background: var(--surface);
   padding: 0.75rem 1.25rem;
   border-radius: var(--radius);
@@ -75,6 +79,10 @@
 
 .person-name {
   font-weight: 500;
+}
+
+.person-card .btn-danger {
+  flex-shrink: 0;
 }
 
 .spinner-wrapper {

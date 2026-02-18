@@ -31,12 +31,34 @@ function renderPeople(people) {
           (p) => `
         <li class="person-card">
           <span class="person-name">${escapeHtml(p.name)}</span>
+          <button type="button" class="btn btn-sm btn-danger" data-id="${escapeHtml(p._id)}" data-action="delete">Delete</button>
         </li>
       `,
         )
         .join("")}
     </ul>
   `;
+
+  peopleList.querySelectorAll("[data-action='delete']").forEach((btn) => {
+    btn.addEventListener("click", () => deletePerson(btn.dataset.id));
+  });
+}
+
+async function deletePerson(id) {
+  if (!confirm("Remove this person from the household?")) return;
+
+  try {
+    const res = await fetch(`/api/people/${id}`, { method: "DELETE" });
+    if (!res.ok) {
+      const err = await res.json();
+      showToast(err.error || "Failed to delete person", "error");
+      return;
+    }
+    showToast("Person removed");
+    loadPeople();
+  } catch (err) {
+    showToast("Failed to delete person", "error");
+  }
 }
 
 function escapeHtml(text) {
