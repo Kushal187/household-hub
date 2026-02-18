@@ -46,6 +46,30 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  try {
+    const updated = await updateChore(req.params.id, req.body);
+    if (!updated) {
+      return res.status(404).json({ error: "Chore not found" });
+    }
+    res.json(updated);
+  } catch (err) {
+    console.error("Error updating chore:", err);
+    res.status(500).json({ error: "Failed to update chore" });
+  }
+});
 
+router.delete("/:id", async (req, res) => {
+  try {
+    const deleted = await deleteChore(req.params.id);
+    if (!deleted) {
+      return res.status(404).json({ error: "Chore not found" });
+    }
+    res.json({ message: "Chore deleted" });
+  } catch (err) {
+    console.error("Error deleting chore:", err);
+    res.status(500).json({ error: "Failed to delete chore" });
+  }
+});
 
 export default router;
