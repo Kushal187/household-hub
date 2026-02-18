@@ -13,6 +13,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "seed:chores": "node scripts/seedChores.js",
+    "seed:expenses": "node scripts/seedExpenses.js",
     "format": "prettier . --write",
     "lint": "eslint ."
   },
