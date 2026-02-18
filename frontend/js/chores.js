@@ -29,6 +29,15 @@ function populateCreatedBySelect() {
     opt.textContent = p.name;
     createdBySelect.appendChild(opt);
   });
+
+  if (createdByHint) {
+    createdByHint.innerHTML = people.length
+      ? ""
+      : '<p class="form-hint">Add household members on the <a href="/people.html">People</a> page first.</p>';
+  }
+
+  const submitBtn = choreForm.querySelector('button[type="submit"]');
+  if (submitBtn) submitBtn.disabled = !people.length;
 }
 
 function populateClaimModalSelect() {
@@ -133,6 +142,7 @@ function goToPage(page) {
 }
 
 const choreForm = document.getElementById("chore-form");
+const createdByHint = document.getElementById("created-by-hint");
 
 choreForm.addEventListener("submit", async (e) => {
   e.preventDefault();

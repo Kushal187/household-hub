@@ -33,7 +33,7 @@ const descriptions = [
 ];
 
 const categories = ["groceries", "utilities", "rent", "food", "other"];
-const people = ["Harsh", "Kushal"];
+const people = ["Harsh", "Kushal", "Alice", "Bob", "Charlie"];
 
 function randomDate(start, end) {
   const d = new Date(
@@ -67,7 +67,7 @@ function generateExpenses(count) {
     }
 
     const splitBoth = Math.random() > 0.15;
-    const splitBetween = splitBoth ? ["Harsh", "Kushal"] : [paidBy];
+    const splitBetween = splitBoth ? ["Harsh", "Kushal", "Alice", "Bob", "Charlie"] : [paidBy];
 
     const expense = {
       description: descriptions[descIndex],

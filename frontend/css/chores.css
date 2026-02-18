@@ -30,6 +30,16 @@
   margin-bottom: 1rem;
 }
 
+.chore-form-section .form-hint {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+}
+
+.chore-form-section .form-hint a {
+  color: var(--primary);
+}
+
 .chore-filters {
   display: flex;
   align-items: center;

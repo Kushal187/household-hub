@@ -60,7 +60,7 @@ const descriptions = [
   "Clean burners and stovetop surface",
 ];
 
-const people = ["Harsh", "Kushal"];
+const people = ["Harsh", "Kushal", "Alice", "Bob", "Charlie"];
 const statuses = ["pending", "claimed", "completed"];
 
 function randomDate(start, end) {

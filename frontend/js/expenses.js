@@ -57,6 +57,9 @@ function populatePeopleDependentUI() {
     opt.textContent = p.name;
     filterPaidBy.appendChild(opt);
   });
+
+  const submitBtn = expenseForm.querySelector('button[type="submit"]');
+  if (submitBtn) submitBtn.disabled = !people.length;
 }
 
 async function fetchExpenses(page = 1) {
