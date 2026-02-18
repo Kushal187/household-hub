@@ -40,7 +40,7 @@ export async function createExpense(expenseData) {
     description: expenseData.description,
     amount: parseFloat(expenseData.amount),
     paidBy: expenseData.paidBy,
-    splitBetween: expenseData.splitBetween || ["Harsh", "Kushal"],
+    splitBetween: expenseData.splitBetween || [],
     category: expenseData.category || "other",
     settled: false,
     date: expenseData.date || new Date().toISOString().split("T")[0],

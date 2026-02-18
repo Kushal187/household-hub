@@ -70,8 +70,6 @@
               <label for="expense-paidBy">Paid By</label>
               <select id="expense-paidBy" name="paidBy" required>
                 <option value="">Select person</option>
-                <option value="Harsh">Harsh</option>
-                <option value="Kushal">Kushal</option>
               </select>
             </div>
           </div>
@@ -93,25 +91,8 @@
           </div>
           <div class="form-group">
             <label>Split Between</label>
-            <div class="checkbox-group">
-              <label class="checkbox-label">
-                <input
-                  type="checkbox"
-                  name="splitBetween"
-                  value="Harsh"
-                  checked
-                />
-                Harsh
-              </label>
-              <label class="checkbox-label">
-                <input
-                  type="checkbox"
-                  name="splitBetween"
-                  value="Kushal"
-                  checked
-                />
-                Kushal
-              </label>
+            <div class="checkbox-group" id="split-between-options">
+              <p class="loading">Loading people...</p>
             </div>
           </div>
           <button type="submit" class="btn btn-primary">Add Expense</button>
@@ -131,8 +112,6 @@
         <label for="filter-paidBy">Paid By:</label>
         <select id="filter-paidBy">
           <option value="">All</option>
-          <option value="Harsh">Harsh</option>
-          <option value="Kushal">Kushal</option>
         </select>
       </section>
 

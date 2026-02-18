@@ -1,6 +1,55 @@
 const choreBoard = document.getElementById("chore-board");
 const pagination = document.getElementById("pagination");
+const createdBySelect = document.getElementById("chore-createdBy");
+const claimModal = document.getElementById("claim-modal");
+const claimPersonSelect = document.getElementById("claim-person");
+const claimModalCancel = document.getElementById("claim-modal-cancel");
+const claimModalConfirm = document.getElementById("claim-modal-confirm");
 let currentPage = 1;
+let people = [];
+let claimChoreId = null;
+
+async function fetchPeople() {
+  try {
+    const res = await fetch("/api/people");
+    people = await res.json();
+  } catch (err) {
+    people = [];
+  }
+}
+
+function populateCreatedBySelect() {
+  const options = createdBySelect.querySelectorAll("option");
+  for (let i = 1; i < options.length; i++) {
+    options[i].remove();
+  }
+  people.forEach((p) => {
+    const opt = document.createElement("option");
+    opt.value = p.name;
+    opt.textContent = p.name;
+    createdBySelect.appendChild(opt);
+  });
+}
+
+function populateClaimModalSelect() {
+  claimPersonSelect.innerHTML = '<option value="">Select person</option>';
+  people.forEach((p) => {
+    const opt = document.createElement("option");
+    opt.value = p.name;
+    opt.textContent = p.name;
+    claimPersonSelect.appendChild(opt);
+  });
+}
+
+function showClaimModal() {
+  populateClaimModalSelect();
+  claimModal.hidden = false;
+}
+
+function hideClaimModal() {
+  claimModal.hidden = true;
+  claimChoreId = null;
+}
 
 async function fetchChores(page = 1) {
   const status = document.getElementById("filter-status").value;
@@ -117,17 +166,31 @@ choreForm.addEventListener("submit", async (e) => {
   }
 });
 
-async function claimChore(id) {
-  const person = prompt("Who is claiming this chore?", "Harsh");
-  if (!person) return;
+function claimChore(id) {
+  if (!people.length) {
+    showToast("Add household members on the People page first", "error");
+    return;
+  }
+  claimChoreId = id;
+  showClaimModal();
+}
+
+async function confirmClaimChore() {
+  const person = claimPersonSelect.value?.trim();
+  if (!person) {
+    showToast("Select a person", "error");
+    return;
+  }
+  if (!claimChoreId) return;
 
   try {
-    await fetch(`/api/chores/${id}`, {
+    await fetch(`/api/chores/${claimChoreId}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "claimed", assignedTo: person }),
     });
     showToast(`Chore claimed by ${person}`);
+    hideClaimModal();
     fetchChores(currentPage);
   } catch (err) {
     showToast("Failed to claim chore", "error");
@@ -168,4 +231,12 @@ document.getElementById("sort-by").addEventListener("change", () => {
   fetchChores(1);
 });
 
-fetchChores();
+claimModalCancel.addEventListener("click", hideClaimModal);
+claimModalConfirm.addEventListener("click", confirmClaimChore);
+claimModal.querySelector(".claim-modal-overlay").addEventListener("click", hideClaimModal);
+
+(async function init() {
+  await fetchPeople();
+  populateCreatedBySelect();
+  fetchChores();
+})();

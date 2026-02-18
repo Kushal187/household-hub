@@ -93,6 +93,15 @@
   margin-bottom: 1rem;
 }
 
+.form-hint {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.form-hint a {
+  color: var(--primary);
+}
+
 .checkbox-group {
   display: flex;
   gap: 1.5rem;
