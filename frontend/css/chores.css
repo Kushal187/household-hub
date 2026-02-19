@@ -30,6 +30,16 @@
   margin-bottom: 1rem;
 }
 
+.chore-form-section .form-hint {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+}
+
+.chore-form-section .form-hint a {
+  color: var(--primary);
+}
+
 .chore-filters {
   display: flex;
   align-items: center;
@@ -154,6 +164,48 @@
 
 .error {
   color: var(--danger);
+}
+
+.claim-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.claim-modal[hidden] {
+  display: none;
+}
+
+.claim-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.claim-modal-content {
+  position: relative;
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  min-width: 280px;
+}
+
+.claim-modal-content h3 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.claim-modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 1.25rem;
 }
 
 @media (max-width: 768px) {

@@ -1,7 +1,66 @@
 const expenseList = document.getElementById("expense-list");
 const balancesDiv = document.getElementById("balances");
 const pagination = document.getElementById("pagination");
+const paidBySelect = document.getElementById("expense-paidBy");
+const splitBetweenOptions = document.getElementById("split-between-options");
+const filterPaidBy = document.getElementById("filter-paidBy");
 let currentPage = 1;
+let people = [];
+
+async function fetchPeople() {
+  try {
+    const res = await fetch("/api/people");
+    people = await res.json();
+  } catch (err) {
+    people = [];
+  }
+}
+
+function populatePeopleDependentUI() {
+  const paidByOptions = paidBySelect.querySelectorAll("option");
+  for (let i = 1; i < paidByOptions.length; i++) {
+    paidByOptions[i].remove();
+  }
+  people.forEach((p) => {
+    const opt = document.createElement("option");
+    opt.value = p.name;
+    opt.textContent = p.name;
+    paidBySelect.appendChild(opt);
+  });
+
+  splitBetweenOptions.innerHTML = "";
+  if (!people.length) {
+    splitBetweenOptions.innerHTML =
+      '<p class="form-hint">Add household members on the <a href="/people.html">People</a> page first.</p>';
+    return;
+  }
+  people.forEach((p) => {
+    const label = document.createElement("label");
+    label.className = "checkbox-label";
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.name = "splitBetween";
+    input.value = p.name;
+    input.checked = true;
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(p.name));
+    splitBetweenOptions.appendChild(label);
+  });
+
+  const filterOptions = filterPaidBy.querySelectorAll("option");
+  for (let i = 1; i < filterOptions.length; i++) {
+    filterOptions[i].remove();
+  }
+  people.forEach((p) => {
+    const opt = document.createElement("option");
+    opt.value = p.name;
+    opt.textContent = p.name;
+    filterPaidBy.appendChild(opt);
+  });
+
+  const submitBtn = expenseForm.querySelector('button[type="submit"]');
+  if (submitBtn) submitBtn.disabled = !people.length;
+}
 
 async function fetchExpenses(page = 1) {
   const category = document.getElementById("filter-category").value;
@@ -218,5 +277,9 @@ document.getElementById("filter-paidBy").addEventListener("change", () => {
   fetchExpenses(1);
 });
 
-fetchExpenses();
-fetchBalances();
+(async function init() {
+  await fetchPeople();
+  populatePeopleDependentUI();
+  fetchExpenses();
+  fetchBalances();
+})();

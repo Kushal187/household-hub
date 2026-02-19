@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chores - HouseholdHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>"
@@ -21,6 +27,7 @@
       </div>
       <ul class="nav-links">
         <li><a href="/">Home</a></li>
+        <li><a href="/people.html">People</a></li>
         <li><a href="/dashboard.html">Dashboard</a></li>
         <li><a href="/chores.html" class="active">Chores</a></li>
         <li><a href="/expenses.html">Expenses</a></li>
@@ -60,9 +67,8 @@
               <label for="chore-createdBy">Created By</label>
               <select id="chore-createdBy" name="createdBy" required>
                 <option value="">Select person</option>
-                <option value="Harsh">Harsh</option>
-                <option value="Kushal">Kushal</option>
               </select>
+              <div id="created-by-hint"></div>
             </div>
             <div class="form-group">
               <label for="chore-deadline">Deadline</label>
@@ -94,6 +100,23 @@
 
       <div class="pagination" id="pagination"></div>
     </main>
+
+    <div id="claim-modal" class="claim-modal" role="dialog" aria-labelledby="claim-modal-title" aria-modal="true" hidden>
+      <div class="claim-modal-overlay"></div>
+      <div class="claim-modal-content">
+        <h3 id="claim-modal-title">Who is claiming this chore?</h3>
+        <div class="form-group">
+          <label for="claim-person">Person</label>
+          <select id="claim-person">
+            <option value="">Select person</option>
+          </select>
+        </div>
+        <div class="claim-modal-actions">
+          <button type="button" class="btn" id="claim-modal-cancel">Cancel</button>
+          <button type="button" class="btn btn-primary" id="claim-modal-confirm">Confirm</button>
+        </div>
+      </div>
+    </div>
 
     <script src="/js/toast.js"></script>
     <script src="/js/chores.js"></script>

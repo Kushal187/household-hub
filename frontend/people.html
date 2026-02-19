@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>People - HouseholdHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>"
+    />
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/nav.css" />
+    <link rel="stylesheet" href="/css/forms.css" />
+    <link rel="stylesheet" href="/css/people.css" />
+    <link rel="stylesheet" href="/css/toast.css" />
+  </head>
+  <body>
+    <nav class="main-nav">
+      <div class="nav-brand">
+        <a href="/">HouseholdHub</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/people.html" class="active">People</a></li>
+        <li><a href="/chores.html">Chores</a></li>
+        <li><a href="/expenses.html">Expenses</a></li>
+      </ul>
+    </nav>
+
+    <main class="people-container">
+      <header class="page-header">
+        <h1>Household Members</h1>
+        <p>Add and manage who lives in your household</p>
+      </header>
+
+      <section class="person-form-section">
+        <h2>Add Person</h2>
+        <form id="person-form">
+          <div class="form-group">
+            <label for="person-name">Name</label>
+            <input
+              type="text"
+              id="person-name"
+              name="name"
+              placeholder="e.g. Alex"
+              required
+            />
+          </div>
+          <button type="submit" class="btn btn-primary">Add Person</button>
+        </form>
+      </section>
+
+      <section class="people-list" id="people-list">
+        <p class="loading">Loading people...</p>
+      </section>
+    </main>
+
+    <script src="/js/toast.js"></script>
+    <script src="/js/people.js"></script>
+  </body>
+</html>
