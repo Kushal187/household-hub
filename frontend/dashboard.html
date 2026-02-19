@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HouseholdHub</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>"
+    />
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/nav.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+    <link rel="stylesheet" href="/css/toast.css" />
+  </head>
+  <body>
+    <nav class="main-nav">
+      <div class="nav-brand">
+        <a href="/">HouseholdHub</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/dashboard.html" class="active">Dashboard</a></li>
+        <li><a href="/chores.html">Chores</a></li>
+        <li><a href="/expenses.html">Expenses</a></li>
+      </ul>
+    </nav>
+
+    <main class="home-container">
+      <h1>Welcome to HouseholdHub</h1>
+      <p>Manage your household chores and shared expenses in one place.</p>
+
+      <section class="instructions">
+        <h2>How It Works</h2>
+        <ol>
+          <li>
+            <strong>Chore Board</strong> — Head to the
+            <a href="/chores.html">Chores</a> page to post a new task, claim an
+            open chore, or mark one as completed.
+          </li>
+          <li>
+            <strong>Expense Tracker</strong> — Visit the
+            <a href="/expenses.html">Expenses</a> page to log a shared cost,
+            choose who to split it with, and settle up when ready.
+          </li>
+          <li>
+            <strong>Balance Summary</strong> — The dashboard below and the
+            Expenses page both show who owes what so settling up is always clear.
+          </li>
+        </ol>
+      </section>
+    </main>
+
+    <script src="/js/toast.js"></script>
+    <script src="/js/index.js"></script>
+  </body>
+</html>
