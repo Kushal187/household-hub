@@ -225,6 +225,18 @@
   border-top: 1px solid var(--border);
 }
 
+/* Scroll animations */
+.scroll-fade {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.scroll-fade.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .hero {
