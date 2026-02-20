@@ -1,3 +1,4 @@
+import { showToast } from "./toast.js";
 const choreBoard = document.getElementById("chore-board");
 const pagination = document.getElementById("pagination");
 const createdBySelect = document.getElementById("chore-createdBy");
@@ -15,6 +16,7 @@ async function fetchPeople() {
     people = await res.json();
   } catch (err) {
     people = [];
+    console.log(err);
   }
 }
 
@@ -79,6 +81,7 @@ async function fetchChores(page = 1) {
     currentPage = data.page;
   } catch (err) {
     choreBoard.innerHTML = '<p class="error">Failed to load chores.</p>';
+    console.log(err);
   }
 }
 
@@ -110,14 +113,24 @@ function renderChores(chores) {
         ${chore.deadline ? `<span>Due: ${chore.deadline}</span>` : ""}
       </div>
       <div class="chore-actions">
-        ${chore.status === "pending" ? `<button class="btn btn-sm btn-primary" onclick="claimChore('${chore._id}')">Claim</button>` : ""}
-        ${chore.status === "claimed" ? `<button class="btn btn-sm btn-success" onclick="completeChore('${chore._id}')">Complete</button>` : ""}
-        <button class="btn btn-sm btn-danger" onclick="removeChore('${chore._id}')">Delete</button>
+        ${chore.status === "pending" ? `<button class="btn btn-sm btn-primary" data-action="claim" data-id="${chore._id}">Claim</button>` : ""}
+        ${chore.status === "claimed" ? `<button class="btn btn-sm btn-success" data-action="complete" data-id="${chore._id}">Complete</button>` : ""}
+        <button class="btn btn-sm btn-danger" data-action="delete" data-id="${chore._id}">Delete</button>
       </div>
     </div>
   `,
     )
     .join("");
+
+  choreBoard.querySelectorAll("[data-action='claim']").forEach((btn) => {
+    btn.addEventListener("click", () => claimChore(btn.dataset.id));
+  });
+  choreBoard.querySelectorAll("[data-action='complete']").forEach((btn) => {
+    btn.addEventListener("click", () => completeChore(btn.dataset.id));
+  });
+  choreBoard.querySelectorAll("[data-action='delete']").forEach((btn) => {
+    btn.addEventListener("click", () => removeChore(btn.dataset.id));
+  });
 }
 
 function renderPagination(page, totalPages) {
@@ -128,17 +141,17 @@ function renderPagination(page, totalPages) {
 
   let html = "";
   if (page > 1) {
-    html += `<button class="btn btn-sm" onclick="goToPage(${page - 1})">Prev</button>`;
+    html += `<button class="btn btn-sm" data-page="${page - 1}">Prev</button>`;
   }
   html += `<span class="page-info">Page ${page} of ${totalPages}</span>`;
   if (page < totalPages) {
-    html += `<button class="btn btn-sm" onclick="goToPage(${page + 1})">Next</button>`;
+    html += `<button class="btn btn-sm" data-page="${page + 1}">Next</button>`;
   }
   pagination.innerHTML = html;
-}
 
-function goToPage(page) {
-  fetchChores(page);
+  pagination.querySelectorAll("[data-page]").forEach((btn) => {
+    btn.addEventListener("click", () => fetchChores(Number(btn.dataset.page)));
+  });
 }
 
 const choreForm = document.getElementById("chore-form");
@@ -172,6 +185,7 @@ choreForm.addEventListener("submit", async (e) => {
     showToast("Chore added successfully");
     fetchChores(1);
   } catch (err) {
+    console.log(err);
     showToast("Failed to create chore", "error");
   }
 });
@@ -203,6 +217,7 @@ async function confirmClaimChore() {
     hideClaimModal();
     fetchChores(currentPage);
   } catch (err) {
+    console.log(err);
     showToast("Failed to claim chore", "error");
   }
 }
@@ -217,6 +232,7 @@ async function completeChore(id) {
     showToast("Chore marked as completed");
     fetchChores(currentPage);
   } catch (err) {
+    console.log(err);
     showToast("Failed to complete chore", "error");
   }
 }
@@ -229,6 +245,7 @@ async function removeChore(id) {
     showToast("Chore deleted");
     fetchChores(currentPage);
   } catch (err) {
+    console.log(err);
     showToast("Failed to delete chore", "error");
   }
 }
@@ -243,7 +260,9 @@ document.getElementById("sort-by").addEventListener("change", () => {
 
 claimModalCancel.addEventListener("click", hideClaimModal);
 claimModalConfirm.addEventListener("click", confirmClaimChore);
-claimModal.querySelector(".claim-modal-overlay").addEventListener("click", hideClaimModal);
+claimModal
+  .querySelector(".claim-modal-overlay")
+  .addEventListener("click", hideClaimModal);
 
 (async function init() {
   await fetchPeople();

@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="/css/chores.css" />
     <link rel="stylesheet" href="/css/toast.css" />
   </head>
+
   <body>
     <nav class="main-nav">
       <div class="nav-brand">
@@ -27,8 +28,8 @@
       </div>
       <ul class="nav-links">
         <li><a href="/">Home</a></li>
-        <li><a href="/people.html">People</a></li>
         <li><a href="/dashboard.html">Dashboard</a></li>
+        <li><a href="/people.html">People</a></li>
         <li><a href="/chores.html" class="active">Chores</a></li>
         <li><a href="/expenses.html">Expenses</a></li>
       </ul>
@@ -101,7 +102,14 @@
       <div class="pagination" id="pagination"></div>
     </main>
 
-    <div id="claim-modal" class="claim-modal" role="dialog" aria-labelledby="claim-modal-title" aria-modal="true" hidden>
+    <div
+      id="claim-modal"
+      class="claim-modal"
+      role="dialog"
+      aria-labelledby="claim-modal-title"
+      aria-modal="true"
+      hidden
+    >
       <div class="claim-modal-overlay"></div>
       <div class="claim-modal-content">
         <h3 id="claim-modal-title">Who is claiming this chore?</h3>
@@ -112,13 +120,20 @@
           </select>
         </div>
         <div class="claim-modal-actions">
-          <button type="button" class="btn" id="claim-modal-cancel">Cancel</button>
-          <button type="button" class="btn btn-primary" id="claim-modal-confirm">Confirm</button>
+          <button type="button" class="btn" id="claim-modal-cancel">
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            id="claim-modal-confirm"
+          >
+            Confirm
+          </button>
         </div>
       </div>
     </div>
 
-    <script src="/js/toast.js"></script>
-    <script src="/js/chores.js"></script>
+    <script type="module" src="/js/chores.js"></script>
   </body>
 </html>

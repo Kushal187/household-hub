@@ -15,6 +15,7 @@ async function loadDashboard() {
     renderDashboard(choresData, expensesData, balances);
   } catch (err) {
     homeContainer.innerHTML += '<p class="error">Failed to load dashboard.</p>';
+    console.log(err);
   }
 }
 

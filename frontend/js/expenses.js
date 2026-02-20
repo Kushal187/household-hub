@@ -1,3 +1,4 @@
+import { showToast } from "./toast.js";
 const expenseList = document.getElementById("expense-list");
 const balancesDiv = document.getElementById("balances");
 const pagination = document.getElementById("pagination");
@@ -13,6 +14,7 @@ async function fetchPeople() {
     people = await res.json();
   } catch (err) {
     people = [];
+    console.log(err);
   }
 }
 
@@ -81,6 +83,7 @@ async function fetchExpenses(page = 1) {
     currentPage = data.page;
   } catch (err) {
     expenseList.innerHTML = '<p class="error">Failed to load expenses.</p>';
+    console.log(err);
   }
 }
 
@@ -91,6 +94,7 @@ async function fetchBalances() {
     renderBalances(balances);
   } catch (err) {
     balancesDiv.innerHTML = '<p class="error">Failed to load balances.</p>';
+    console.log(err);
   }
 }
 
@@ -134,8 +138,8 @@ function renderExpenses(expenses) {
             <td>${e.splitBetween.join(", ")}</td>
             <td><span class="status-badge status-${e.settled ? "settled" : "unsettled"}">${e.settled ? "Settled" : "Unsettled"}</span></td>
             <td class="action-cell">
-              ${!e.settled ? `<button class="btn btn-sm btn-success" onclick="settleExpense('${e._id}')">Settle</button>` : ""}
-              <button class="btn btn-sm btn-danger" onclick="removeExpense('${e._id}')">Delete</button>
+              ${!e.settled ? `<button class="btn btn-sm btn-success" data-action="settle" data-id="${e._id}">Settle</button>` : ""}
+              <button class="btn btn-sm btn-danger" data-action="delete" data-id="${e._id}">Delete</button>
             </td>
           </tr>
         `,
@@ -145,6 +149,13 @@ function renderExpenses(expenses) {
     </table>
   `;
   expenseList.innerHTML = tableHTML;
+
+  expenseList.querySelectorAll("[data-action='settle']").forEach((btn) => {
+    btn.addEventListener("click", () => settleExpense(btn.dataset.id));
+  });
+  expenseList.querySelectorAll("[data-action='delete']").forEach((btn) => {
+    btn.addEventListener("click", () => removeExpense(btn.dataset.id));
+  });
 }
 
 function renderBalances(balances) {
@@ -176,17 +187,19 @@ function renderPagination(page, totalPages) {
 
   let html = "";
   if (page > 1) {
-    html += `<button class="btn btn-sm" onclick="goToPage(${page - 1})">Prev</button>`;
+    html += `<button class="btn btn-sm" data-page="${page - 1}">Prev</button>`;
   }
   html += `<span class="page-info">Page ${page} of ${totalPages}</span>`;
   if (page < totalPages) {
-    html += `<button class="btn btn-sm" onclick="goToPage(${page + 1})">Next</button>`;
+    html += `<button class="btn btn-sm" data-page="${page + 1}">Next</button>`;
   }
   pagination.innerHTML = html;
-}
 
-function goToPage(page) {
-  fetchExpenses(page);
+  pagination.querySelectorAll("[data-page]").forEach((btn) => {
+    btn.addEventListener("click", () =>
+      fetchExpenses(Number(btn.dataset.page)),
+    );
+  });
 }
 
 const expenseForm = document.getElementById("expense-form");
@@ -235,6 +248,7 @@ expenseForm.addEventListener("submit", async (e) => {
     fetchExpenses(1);
     fetchBalances();
   } catch (err) {
+    console.log(err);
     showToast("Failed to create expense", "error");
   }
 });
@@ -252,6 +266,7 @@ async function settleExpense(id) {
     fetchExpenses(currentPage);
     fetchBalances();
   } catch (err) {
+    console.log(err);
     showToast("Failed to settle expense", "error");
   }
 }
@@ -265,6 +280,7 @@ async function removeExpense(id) {
     fetchExpenses(currentPage);
     fetchBalances();
   } catch (err) {
+    console.log(err);
     showToast("Failed to delete expense", "error");
   }
 }

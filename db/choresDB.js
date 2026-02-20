@@ -14,7 +14,8 @@ export async function getAllChores(query = {}) {
     filter.status = query.status;
   }
 
-  const sort = query.sortBy === "deadline" ? { deadline: 1 } : { createdAt: -1 };
+  const sort =
+    query.sortBy === "deadline" ? { deadline: 1 } : { createdAt: -1 };
   const page = parseInt(query.page) || 1;
   const limit = parseInt(query.limit) || 20;
   const skip = (page - 1) * limit;

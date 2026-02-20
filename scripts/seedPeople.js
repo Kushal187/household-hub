@@ -25,7 +25,9 @@ async function seed() {
     }
 
     await collection.insertMany(defaultPeople);
-    console.log(`Seeded ${defaultPeople.length} people: ${defaultPeople.map((p) => p.name).join(", ")}`);
+    console.log(
+      `Seeded ${defaultPeople.length} people: ${defaultPeople.map((p) => p.name).join(", ")}`,
+    );
   } catch (err) {
     console.error("Seeding failed:", err);
   } finally {

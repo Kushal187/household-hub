@@ -86,10 +86,14 @@ function generateChores(count) {
     const chore = {
       title: titles[titleIndex],
       description: descriptions[titleIndex],
-      assignedTo: status !== "pending" ? people[Math.floor(Math.random() * people.length)] : "",
+      assignedTo:
+        status !== "pending"
+          ? people[Math.floor(Math.random() * people.length)]
+          : "",
       createdBy,
       status,
-      deadline: Math.random() > 0.3 ? randomDate(deadlineStart, deadlineEnd) : null,
+      deadline:
+        Math.random() > 0.3 ? randomDate(deadlineStart, deadlineEnd) : null,
       createdAt: new Date(createdDate).toISOString(),
     };
 

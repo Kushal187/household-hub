@@ -22,7 +22,12 @@ export async function getAllExpenses(query = {}) {
   const skip = (page - 1) * limit;
 
   const [expenses, total] = await Promise.all([
-    collection.find(filter).sort({ date: -1 }).skip(skip).limit(limit).toArray(),
+    collection
+      .find(filter)
+      .sort({ date: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray(),
     collection.countDocuments(filter),
   ]);
 

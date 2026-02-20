@@ -36,7 +36,9 @@ router.post("/", async (req, res) => {
   try {
     const { title, createdBy } = req.body;
     if (!title || !createdBy) {
-      return res.status(400).json({ error: "Title and createdBy are required" });
+      return res
+        .status(400)
+        .json({ error: "Title and createdBy are required" });
     }
     const chore = await createChore(req.body);
     res.status(201).json(chore);

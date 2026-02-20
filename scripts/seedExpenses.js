@@ -67,7 +67,9 @@ function generateExpenses(count) {
     }
 
     const splitBoth = Math.random() > 0.15;
-    const splitBetween = splitBoth ? ["Harsh", "Kushal", "Alice", "Bob", "Charlie"] : [paidBy];
+    const splitBetween = splitBoth
+      ? ["Harsh", "Kushal", "Alice", "Bob", "Charlie"]
+      : [paidBy];
 
     const expense = {
       description: descriptions[descIndex],

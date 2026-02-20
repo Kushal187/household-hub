@@ -7,7 +7,7 @@ export default defineConfig([
     files: ["frontend/**/*.js"],
     plugins: { js },
     extends: ["js/recommended"],
-    languageOptions: { globals: globals.browser },
+    languageOptions: { globals: globals.browser, sourceType: "module" },
   },
   {
     files: ["*.js", "db/**/*.js", "routes/**/*.js", "scripts/**/*.js"],

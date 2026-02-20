@@ -94,31 +94,6 @@
   font-weight: 600;
 }
 
-.status-badge {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: capitalize;
-  white-space: nowrap;
-}
-
-.status-pending {
-  background: #fef3c7;
-  color: #92400e;
-}
-
-.status-claimed {
-  background: #dbeafe;
-  color: #1e40af;
-}
-
-.status-completed {
-  background: #dcfce7;
-  color: #166534;
-}
-
 .chore-desc {
   font-size: 0.9rem;
   color: var(--text-muted);
@@ -139,31 +114,6 @@
   gap: 0.5rem;
   padding-top: 0.75rem;
   border-top: 1px solid var(--border);
-}
-
-.pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.page-info {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-}
-
-.loading,
-.empty,
-.error {
-  text-align: center;
-  padding: 2rem;
-  color: var(--text-muted);
-}
-
-.error {
-  color: var(--danger);
 }
 
 .claim-modal {

@@ -17,3 +17,5 @@ function showToast(message, type = "success") {
     toast.addEventListener("animationend", () => toast.remove());
   }, 2700);
 }
+
+export { showToast };

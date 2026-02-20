@@ -1,3 +1,4 @@
+import { showToast } from "./toast.js";
 const peopleList = document.getElementById("people-list");
 const personForm = document.getElementById("person-form");
 
@@ -11,6 +12,7 @@ async function loadPeople() {
     renderPeople(people);
   } catch (err) {
     peopleList.innerHTML = '<p class="error">Failed to load people.</p>';
+    console.log(err);
   }
 }
 
@@ -30,8 +32,8 @@ function renderPeople(people) {
         .map(
           (p) => `
         <li class="person-card">
-          <span class="person-name">${escapeHtml(p.name)}</span>
-          <button type="button" class="btn btn-sm btn-danger" data-id="${escapeHtml(p._id)}" data-action="delete">Delete</button>
+          <span class="person-name">${p.name}</span>
+          <button type="button" class="btn btn-sm btn-danger" data-id="${p._id}" data-action="delete">Delete</button>
         </li>
       `,
         )
@@ -58,13 +60,8 @@ async function deletePerson(id) {
     loadPeople();
   } catch (err) {
     showToast("Failed to delete person", "error");
+    console.log(err);
   }
-}
-
-function escapeHtml(text) {
-  const div = document.createElement("div");
-  div.textContent = text;
-  return div.innerHTML;
 }
 
 personForm.addEventListener("submit", async (e) => {
@@ -95,6 +92,7 @@ personForm.addEventListener("submit", async (e) => {
     loadPeople();
   } catch (err) {
     showToast("Failed to add person", "error");
+    console.log(err);
   }
 });
 

@@ -30,17 +30,6 @@
   margin-bottom: 1rem;
 }
 
-.people-list .loading,
-.people-list .error {
-  text-align: center;
-  padding: 2rem;
-  color: var(--text-muted);
-}
-
-.people-list .error {
-  color: var(--danger);
-}
-
 .people-list .empty-state {
   text-align: center;
   padding: 2rem;
@@ -83,25 +72,4 @@
 
 .person-card .btn-danger {
   flex-shrink: 0;
-}
-
-.spinner-wrapper {
-  display: flex;
-  justify-content: center;
-  padding: 2rem;
-}
-
-.spinner {
-  width: 32px;
-  height: 32px;
-  border: 3px solid var(--border);
-  border-top-color: var(--primary);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
 }
