@@ -12,7 +12,7 @@
     />
     <link
       rel="icon"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%A0%3C/text%3E%3C/svg%3E"
     />
     <link rel="stylesheet" href="/css/base.css" />
     <link rel="stylesheet" href="/css/nav.css" />
@@ -107,7 +107,8 @@
         </form>
       </section>
 
-      <section class="expense-filters">
+      <section class="expense-filters" aria-labelledby="expense-filters-heading">
+        <h2 id="expense-filters-heading" class="sr-only">Filter expenses</h2>
         <label for="filter-category">Category:</label>
         <select id="filter-category">
           <option value="">All</option>
@@ -123,7 +124,8 @@
         </select>
       </section>
 
-      <section class="expense-list" id="expense-list">
+      <section class="expense-list" id="expense-list" aria-labelledby="expense-list-heading">
+        <h2 id="expense-list-heading" class="sr-only">Expense list</h2>
         <p class="loading">Loading expenses...</p>
       </section>
 

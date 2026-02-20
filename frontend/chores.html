@@ -12,7 +12,7 @@
     />
     <link
       rel="icon"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%A0%3C/text%3E%3C/svg%3E"
     />
     <link rel="stylesheet" href="/css/base.css" />
     <link rel="stylesheet" href="/css/nav.css" />
@@ -80,7 +80,8 @@
         </form>
       </section>
 
-      <section class="chore-filters">
+      <section class="chore-filters" aria-labelledby="chore-filters-heading">
+        <h2 id="chore-filters-heading" class="sr-only">Filter chores</h2>
         <label for="filter-status">Filter by status:</label>
         <select id="filter-status">
           <option value="">All</option>
@@ -95,7 +96,8 @@
         </select>
       </section>
 
-      <section class="chore-board" id="chore-board">
+      <section class="chore-board" id="chore-board" aria-labelledby="chore-board-heading">
+        <h2 id="chore-board-heading" class="sr-only">Chore board</h2>
         <p class="loading">Loading chores...</p>
       </section>
 
