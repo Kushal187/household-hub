@@ -9,12 +9,13 @@ import {
 
 const router = Router();
 
+// list chores with optional query filters
 router.get("/", async (req, res) => {
   try {
     const result = await getAllChores(req.query);
     res.json(result);
   } catch (err) {
-    console.error("Error fetching chores:", err);
+    console.log("chores fetch error:", err.message);
     res.status(500).json({ error: "Failed to fetch chores" });
   }
 });
@@ -22,54 +23,49 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const chore = await getChoreById(req.params.id);
-    if (!chore) {
-      return res.status(404).json({ error: "Chore not found" });
-    }
+    if (!chore) return res.status(404).json({ error: "Chore not found" });
     res.json(chore);
   } catch (err) {
-    console.error("Error fetching chore:", err);
+    console.log(err);
     res.status(500).json({ error: "Failed to fetch chore" });
   }
 });
 
 router.post("/", async (req, res) => {
+  const { title, createdBy } = req.body;
+
+  // both fields required
+  if (!title || !createdBy) {
+    return res.status(400).json({ error: "Title and createdBy are required" });
+  }
+
   try {
-    const { title, createdBy } = req.body;
-    if (!title || !createdBy) {
-      return res
-        .status(400)
-        .json({ error: "Title and createdBy are required" });
-    }
     const chore = await createChore(req.body);
     res.status(201).json(chore);
   } catch (err) {
-    console.error("Error creating chore:", err);
+    console.log("Error creating chore:", err);
     res.status(500).json({ error: "Failed to create chore" });
   }
 });
 
 router.put("/:id", async (req, res) => {
   try {
-    const updated = await updateChore(req.params.id, req.body);
-    if (!updated) {
-      return res.status(404).json({ error: "Chore not found" });
-    }
-    res.json(updated);
+    const result = await updateChore(req.params.id, req.body);
+    if (!result) return res.status(404).json({ error: "Chore not found" });
+    res.json(result);
   } catch (err) {
-    console.error("Error updating chore:", err);
+    console.log(err);
     res.status(500).json({ error: "Failed to update chore" });
   }
 });
 
 router.delete("/:id", async (req, res) => {
   try {
-    const deleted = await deleteChore(req.params.id);
-    if (!deleted) {
-      return res.status(404).json({ error: "Chore not found" });
-    }
+    const ok = await deleteChore(req.params.id);
+    if (!ok) return res.status(404).json({ error: "Chore not found" });
     res.json({ message: "Chore deleted" });
   } catch (err) {
-    console.error("Error deleting chore:", err);
+    console.log("delete failed", err.message);
     res.status(500).json({ error: "Failed to delete chore" });
   }
 });

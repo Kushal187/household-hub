@@ -1,4 +1,3 @@
-/* Landing nav */
 .landing-nav {
   display: flex;
   justify-content: space-between;
@@ -64,7 +63,6 @@
   color: #fff;
 }
 
-/* Hero */
 .hero {
   display: flex;
   align-items: center;
@@ -111,7 +109,6 @@
   height: auto;
 }
 
-/* Features */
 .features {
   background: var(--surface);
   padding: 5rem 2rem;
@@ -155,7 +152,6 @@
 .feature-card h3 {
   font-size: 1.15rem;
   margin-bottom: 0.75rem;
-  color: var(--text);
 }
 
 .feature-card p {
@@ -164,7 +160,6 @@
   line-height: 1.6;
 }
 
-/* Stats */
 .stats {
   display: flex;
   justify-content: center;
@@ -191,7 +186,6 @@
   margin-top: 0.25rem;
 }
 
-/* CTA */
 .cta {
   background: var(--primary);
   color: #fff;
@@ -220,7 +214,6 @@
   background: #eef2ff;
 }
 
-/* Footer */
 .landing-footer {
   text-align: center;
   padding: 1.5rem;
@@ -229,7 +222,7 @@
   border-top: 1px solid var(--border);
 }
 
-/* Scroll animations */
+/* scroll animations */
 .scroll-fade {
   opacity: 0;
   transform: translateY(24px);
@@ -243,7 +236,6 @@
   transform: translateY(0);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .hero {
     flex-direction: column;

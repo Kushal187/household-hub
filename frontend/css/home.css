@@ -48,6 +48,7 @@
   text-decoration: underline;
 }
 
+/* dashboard grid layout */
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -144,11 +145,9 @@
   .home-container {
     padding: 1.25rem;
   }
-
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
-
   .balance-overview {
     grid-column: auto;
   }

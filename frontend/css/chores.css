@@ -74,11 +74,10 @@
   border-radius: var(--radius);
   padding: 1.25rem;
   box-shadow: var(--shadow);
-  transition: box-shadow 0.2s;
 }
 
 .chore-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .chore-header {
@@ -116,6 +115,7 @@
   border-top: 1px solid var(--border);
 }
 
+/* claim modal */
 .claim-modal {
   position: fixed;
   inset: 0;
@@ -162,11 +162,9 @@
   .chores-container {
     padding: 1.25rem;
   }
-
   .chore-board {
     grid-template-columns: 1fr;
   }
-
   .chore-filters {
     flex-direction: column;
     align-items: flex-start;

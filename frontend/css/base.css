@@ -29,7 +29,7 @@ body {
     "Segoe UI",
     Roboto,
     sans-serif;
-  background-color: var(--bg);
+  background: var(--bg);
   color: var(--text);
   line-height: 1.6;
 }
@@ -54,7 +54,6 @@ h3 {
   line-height: 1.2;
 }
 
-/* Loading spinner */
 .spinner-wrapper {
   display: flex;
   justify-content: center;
@@ -76,7 +75,6 @@ h3 {
   }
 }
 
-/* Fade-in animation */
 .fade-in {
   animation: fadeIn 0.35s ease forwards;
   opacity: 0;
@@ -93,7 +91,6 @@ h3 {
   }
 }
 
-/* Empty state */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -117,7 +114,6 @@ h3 {
   font-size: 0.9rem;
 }
 
-/* Status badges */
 .status-badge {
   display: inline-block;
   padding: 0.2rem 0.6rem;
@@ -143,7 +139,6 @@ h3 {
   color: #166534;
 }
 
-/* Pagination */
 .pagination {
   display: flex;
   align-items: center;
@@ -157,9 +152,7 @@ h3 {
   color: var(--text-muted);
 }
 
-/* Loading / error states */
 .loading,
-.empty,
 .error {
   text-align: center;
   padding: 2rem;

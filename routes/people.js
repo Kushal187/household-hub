@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
     const people = await getAllPeople();
     res.json(people);
   } catch (err) {
-    console.error("Error fetching people:", err);
+    console.error(err);
     res.status(500).json({ error: "Failed to fetch people" });
   }
 });
@@ -27,18 +27,19 @@ router.get("/:id", async (req, res) => {
     }
     res.json(person);
   } catch (err) {
-    console.error("Error fetching person:", err);
+    console.log(err);
     res.status(500).json({ error: "Failed to fetch person" });
   }
 });
 
 router.post("/", async (req, res) => {
+  const name = req.body.name?.trim();
+  if (!name) {
+    return res.status(400).json({ error: "Name is required" });
+  }
+
   try {
-    const { name } = req.body;
-    if (!name?.trim()) {
-      return res.status(400).json({ error: "Name is required" });
-    }
-    const person = await createPerson(req.body);
+    const person = await createPerson({ name });
     res.status(201).json(person);
   } catch (err) {
     console.error("Error creating person:", err);
@@ -54,7 +55,7 @@ router.put("/:id", async (req, res) => {
     }
     res.json(updated);
   } catch (err) {
-    console.error("Error updating person:", err);
+    console.error(err);
     res.status(500).json({ error: "Failed to update person" });
   }
 });
@@ -62,12 +63,10 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   try {
     const deleted = await deletePerson(req.params.id);
-    if (!deleted) {
-      return res.status(404).json({ error: "Person not found" });
-    }
+    if (!deleted) return res.status(404).json({ error: "Person not found" });
     res.json({ message: "Person deleted" });
   } catch (err) {
-    console.error("Error deleting person:", err);
+    console.log("delete person failed:", err.message);
     res.status(500).json({ error: "Failed to delete person" });
   }
 });

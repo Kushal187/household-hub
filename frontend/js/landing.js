@@ -1,15 +1,13 @@
-/* Smooth scroll for anchor links */
+// smooth scroll for anchor links on landing page
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener("click", (e) => {
     e.preventDefault();
     const target = document.querySelector(link.getAttribute("href"));
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
+    if (target) target.scrollIntoView({ behavior: "smooth" });
   });
 });
 
-/* Scroll-triggered fade-in animations */
+// fade in elements as they scroll into view
 const observer = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {

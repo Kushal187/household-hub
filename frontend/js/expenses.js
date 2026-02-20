@@ -1,10 +1,13 @@
 import { showToast } from "./toast.js";
+
 const expenseList = document.getElementById("expense-list");
 const balancesDiv = document.getElementById("balances");
 const pagination = document.getElementById("pagination");
 const paidBySelect = document.getElementById("expense-paidBy");
 const splitBetweenOptions = document.getElementById("split-between-options");
 const filterPaidBy = document.getElementById("filter-paidBy");
+const expenseForm = document.getElementById("expense-form");
+
 let currentPage = 1;
 let people = [];
 
@@ -19,6 +22,7 @@ async function fetchPeople() {
 }
 
 function populatePeopleDependentUI() {
+  // paid by dropdown
   const paidByOptions = paidBySelect.querySelectorAll("option");
   for (let i = 1; i < paidByOptions.length; i++) {
     paidByOptions[i].remove();
@@ -30,6 +34,7 @@ function populatePeopleDependentUI() {
     paidBySelect.appendChild(opt);
   });
 
+  // split between checkboxes
   splitBetweenOptions.innerHTML = "";
   if (!people.length) {
     splitBetweenOptions.innerHTML =
@@ -49,6 +54,7 @@ function populatePeopleDependentUI() {
     splitBetweenOptions.appendChild(label);
   });
 
+  // filter dropdown for paid by
   const filterOptions = filterPaidBy.querySelectorAll("option");
   for (let i = 1; i < filterOptions.length; i++) {
     filterOptions[i].remove();
@@ -90,8 +96,8 @@ async function fetchExpenses(page = 1) {
 async function fetchBalances() {
   try {
     const res = await fetch("/api/expenses/balances");
-    const balances = await res.json();
-    renderBalances(balances);
+    const data = await res.json();
+    renderBalances(data);
   } catch (err) {
     balancesDiv.innerHTML = '<p class="error">Failed to load balances.</p>';
     console.log(err);
@@ -111,7 +117,26 @@ function renderExpenses(expenses) {
     return;
   }
 
-  const tableHTML = `
+  // build the table
+  let rows = "";
+  expenses.forEach((e, i) => {
+    rows += `
+      <tr class="${e.settled ? "settled" : ""} fade-in" style="animation-delay: ${i * 0.03}s">
+        <td>${e.date}</td>
+        <td>${e.description}</td>
+        <td>$${e.amount.toFixed(2)}</td>
+        <td>${e.paidBy}</td>
+        <td><span class="category-badge category-${e.category}">${e.category}</span></td>
+        <td>${e.splitBetween.join(", ")}</td>
+        <td><span class="status-badge status-${e.settled ? "settled" : "unsettled"}">${e.settled ? "Settled" : "Unsettled"}</span></td>
+        <td class="action-cell">
+          ${!e.settled ? `<button class="btn btn-sm btn-success" data-action="settle" data-id="${e._id}">Settle</button>` : ""}
+          <button class="btn btn-sm btn-danger" data-action="delete" data-id="${e._id}">Delete</button>
+        </td>
+      </tr>`;
+  });
+
+  expenseList.innerHTML = `
     <table class="expense-table fade-in">
       <thead>
         <tr>
@@ -125,30 +150,8 @@ function renderExpenses(expenses) {
           <th>Actions</th>
         </tr>
       </thead>
-      <tbody>
-        ${expenses
-          .map(
-            (e, i) => `
-          <tr class="${e.settled ? "settled" : ""} fade-in" style="animation-delay: ${i * 0.03}s">
-            <td>${e.date}</td>
-            <td>${e.description}</td>
-            <td>$${e.amount.toFixed(2)}</td>
-            <td>${e.paidBy}</td>
-            <td><span class="category-badge category-${e.category}">${e.category}</span></td>
-            <td>${e.splitBetween.join(", ")}</td>
-            <td><span class="status-badge status-${e.settled ? "settled" : "unsettled"}">${e.settled ? "Settled" : "Unsettled"}</span></td>
-            <td class="action-cell">
-              ${!e.settled ? `<button class="btn btn-sm btn-success" data-action="settle" data-id="${e._id}">Settle</button>` : ""}
-              <button class="btn btn-sm btn-danger" data-action="delete" data-id="${e._id}">Delete</button>
-            </td>
-          </tr>
-        `,
-          )
-          .join("")}
-      </tbody>
-    </table>
-  `;
-  expenseList.innerHTML = tableHTML;
+      <tbody>${rows}</tbody>
+    </table>`;
 
   expenseList.querySelectorAll("[data-action='settle']").forEach((btn) => {
     btn.addEventListener("click", () => settleExpense(btn.dataset.id));
@@ -167,14 +170,13 @@ function renderBalances(balances) {
 
   balancesDiv.innerHTML = entries
     .map(([person, amount]) => {
-      const isPositive = amount >= 0;
+      const positive = amount >= 0;
       return `
-      <div class="balance-card ${isPositive ? "positive" : "negative"} fade-in">
+      <div class="balance-card ${positive ? "positive" : "negative"} fade-in">
         <span class="balance-name">${person}</span>
-        <span class="balance-amount">${isPositive ? "+" : ""}$${amount.toFixed(2)}</span>
-        <span class="balance-label">${isPositive ? "is owed" : "owes"}</span>
-      </div>
-    `;
+        <span class="balance-amount">${positive ? "+" : ""}$${amount.toFixed(2)}</span>
+        <span class="balance-label">${positive ? "is owed" : "owes"}</span>
+      </div>`;
     })
     .join("");
 }
@@ -202,8 +204,6 @@ function renderPagination(page, totalPages) {
   });
 }
 
-const expenseForm = document.getElementById("expense-form");
-
 expenseForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -213,7 +213,7 @@ expenseForm.addEventListener("submit", async (e) => {
   );
   const splitBetween = Array.from(splitCheckboxes).map((cb) => cb.value);
 
-  if (!splitBetween.length) {
+  if (splitBetween.length === 0) {
     showToast("Select at least one person to split with", "error");
     return;
   }
@@ -235,12 +235,13 @@ expenseForm.addEventListener("submit", async (e) => {
     });
 
     if (!res.ok) {
-      const err = await res.json();
-      showToast(err.error || "Failed to create expense", "error");
+      const errBody = await res.json();
+      showToast(errBody.error || "Failed to create expense", "error");
       return;
     }
 
     expenseForm.reset();
+    // re-check all the split checkboxes after reset
     document
       .querySelectorAll('input[name="splitBetween"]')
       .forEach((cb) => (cb.checked = true));

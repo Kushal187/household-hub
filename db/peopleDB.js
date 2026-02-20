@@ -7,37 +7,36 @@ async function getCollection() {
 }
 
 export async function getAllPeople() {
-  const collection = await getCollection();
-  return collection.find({}).sort({ name: 1 }).toArray();
+  const col = await getCollection();
+  return col.find({}).sort({ name: 1 }).toArray();
 }
 
 export async function getPersonById(id) {
-  const collection = await getCollection();
-  return collection.findOne({ _id: new ObjectId(id) });
+  const col = await getCollection();
+  return col.findOne({ _id: new ObjectId(id) });
 }
 
 export async function createPerson(personData) {
-  const collection = await getCollection();
+  const col = await getCollection();
   const person = {
     name: personData.name?.trim() || "",
     createdAt: new Date().toISOString(),
   };
-  const result = await collection.insertOne(person);
+  const result = await col.insertOne(person);
   return { ...person, _id: result.insertedId };
 }
 
 export async function updatePerson(id, updates) {
-  const collection = await getCollection();
-  const result = await collection.findOneAndUpdate(
+  const col = await getCollection();
+  return col.findOneAndUpdate(
     { _id: new ObjectId(id) },
     { $set: updates },
     { returnDocument: "after" },
   );
-  return result;
 }
 
 export async function deletePerson(id) {
-  const collection = await getCollection();
-  const result = await collection.deleteOne({ _id: new ObjectId(id) });
+  const col = await getCollection();
+  const result = await col.deleteOne({ _id: new ObjectId(id) });
   return result.deletedCount > 0;
 }

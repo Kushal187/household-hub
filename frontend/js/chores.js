@@ -1,11 +1,13 @@
 import { showToast } from "./toast.js";
+
 const choreBoard = document.getElementById("chore-board");
 const pagination = document.getElementById("pagination");
 const createdBySelect = document.getElementById("chore-createdBy");
+const choreForm = document.getElementById("chore-form");
+const createdByHint = document.getElementById("created-by-hint");
 const claimModal = document.getElementById("claim-modal");
 const claimPersonSelect = document.getElementById("claim-person");
-const claimModalCancel = document.getElementById("claim-modal-cancel");
-const claimModalConfirm = document.getElementById("claim-modal-confirm");
+
 let currentPage = 1;
 let people = [];
 let claimChoreId = null;
@@ -21,10 +23,10 @@ async function fetchPeople() {
 }
 
 function populateCreatedBySelect() {
-  const options = createdBySelect.querySelectorAll("option");
-  for (let i = 1; i < options.length; i++) {
-    options[i].remove();
-  }
+  // clear old options except the placeholder
+  const existing = createdBySelect.querySelectorAll("option");
+  for (let i = 1; i < existing.length; i++) existing[i].remove();
+
   people.forEach((p) => {
     const opt = document.createElement("option");
     opt.value = p.name;
@@ -44,12 +46,12 @@ function populateCreatedBySelect() {
 
 function populateClaimModalSelect() {
   claimPersonSelect.innerHTML = '<option value="">Select person</option>';
-  people.forEach((p) => {
+  for (const p of people) {
     const opt = document.createElement("option");
     opt.value = p.name;
     opt.textContent = p.name;
     claimPersonSelect.appendChild(opt);
-  });
+  }
 }
 
 function showClaimModal() {
@@ -98,9 +100,9 @@ function renderChores(chores) {
     return;
   }
 
-  choreBoard.innerHTML = chores
-    .map(
-      (chore, i) => `
+  let html = "";
+  chores.forEach((chore, i) => {
+    html += `
     <div class="chore-card fade-in" style="animation-delay: ${i * 0.05}s" data-id="${chore._id}">
       <div class="chore-header">
         <h3 class="chore-title">${chore.title}</h3>
@@ -117,11 +119,11 @@ function renderChores(chores) {
         ${chore.status === "claimed" ? `<button class="btn btn-sm btn-success" data-action="complete" data-id="${chore._id}">Complete</button>` : ""}
         <button class="btn btn-sm btn-danger" data-action="delete" data-id="${chore._id}">Delete</button>
       </div>
-    </div>
-  `,
-    )
-    .join("");
+    </div>`;
+  });
+  choreBoard.innerHTML = html;
 
+  // attach action listeners
   choreBoard.querySelectorAll("[data-action='claim']").forEach((btn) => {
     btn.addEventListener("click", () => claimChore(btn.dataset.id));
   });
@@ -140,13 +142,11 @@ function renderPagination(page, totalPages) {
   }
 
   let html = "";
-  if (page > 1) {
+  if (page > 1)
     html += `<button class="btn btn-sm" data-page="${page - 1}">Prev</button>`;
-  }
   html += `<span class="page-info">Page ${page} of ${totalPages}</span>`;
-  if (page < totalPages) {
+  if (page < totalPages)
     html += `<button class="btn btn-sm" data-page="${page + 1}">Next</button>`;
-  }
   pagination.innerHTML = html;
 
   pagination.querySelectorAll("[data-page]").forEach((btn) => {
@@ -154,18 +154,15 @@ function renderPagination(page, totalPages) {
   });
 }
 
-const choreForm = document.getElementById("chore-form");
-const createdByHint = document.getElementById("created-by-hint");
-
 choreForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const formData = new FormData(choreForm);
+  const fd = new FormData(choreForm);
   const choreData = {
-    title: formData.get("title"),
-    description: formData.get("description"),
-    createdBy: formData.get("createdBy"),
-    deadline: formData.get("deadline") || null,
+    title: fd.get("title"),
+    description: fd.get("description"),
+    createdBy: fd.get("createdBy"),
+    deadline: fd.get("deadline") || null,
   };
 
   try {
@@ -174,13 +171,11 @@ choreForm.addEventListener("submit", async (e) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(choreData),
     });
-
     if (!res.ok) {
-      const err = await res.json();
-      showToast(err.error || "Failed to create chore", "error");
+      const errData = await res.json();
+      showToast(errData.error || "Failed to create chore", "error");
       return;
     }
-
     choreForm.reset();
     showToast("Chore added successfully");
     fetchChores(1);
@@ -239,7 +234,6 @@ async function completeChore(id) {
 
 async function removeChore(id) {
   if (!confirm("Are you sure you want to delete this chore?")) return;
-
   try {
     await fetch(`/api/chores/${id}`, { method: "DELETE" });
     showToast("Chore deleted");
@@ -250,21 +244,27 @@ async function removeChore(id) {
   }
 }
 
-document.getElementById("filter-status").addEventListener("change", () => {
-  fetchChores(1);
-});
+// filter and sort listeners
+document
+  .getElementById("filter-status")
+  .addEventListener("change", () => fetchChores(1));
+document
+  .getElementById("sort-by")
+  .addEventListener("change", () => fetchChores(1));
 
-document.getElementById("sort-by").addEventListener("change", () => {
-  fetchChores(1);
-});
-
-claimModalCancel.addEventListener("click", hideClaimModal);
-claimModalConfirm.addEventListener("click", confirmClaimChore);
+// modal listeners
+document
+  .getElementById("claim-modal-cancel")
+  .addEventListener("click", hideClaimModal);
+document
+  .getElementById("claim-modal-confirm")
+  .addEventListener("click", confirmClaimChore);
 claimModal
   .querySelector(".claim-modal-overlay")
   .addEventListener("click", hideClaimModal);
 
-(async function init() {
+// init
+(async () => {
   await fetchPeople();
   populateCreatedBySelect();
   fetchChores();

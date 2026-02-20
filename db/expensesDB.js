@@ -67,23 +67,29 @@ export async function updateExpense(id, updates) {
 
 export async function deleteExpense(id) {
   const collection = await getCollection();
-  const result = await collection.deleteOne({ _id: new ObjectId(id) });
-  return result.deletedCount > 0;
+  const { deletedCount } = await collection.deleteOne({
+    _id: new ObjectId(id),
+  });
+  return deletedCount > 0;
 }
 
+// calculates how much each person owes or is owed based on unsettled expenses
 export async function getBalanceSummary() {
   const collection = await getCollection();
-  const expenses = await collection.find({ settled: false }).toArray();
+  const unsettled = await collection.find({ settled: false }).toArray();
 
   const balances = {};
-  for (const expense of expenses) {
-    const share = expense.amount / expense.splitBetween.length;
-    for (const person of expense.splitBetween) {
+  for (const exp of unsettled) {
+    const perPerson = exp.amount / exp.splitBetween.length;
+
+    for (const person of exp.splitBetween) {
       if (!balances[person]) balances[person] = 0;
-      if (person === expense.paidBy) {
-        balances[person] += expense.amount - share;
+
+      if (person === exp.paidBy) {
+        // person paid, so everyone else owes them their share
+        balances[person] += exp.amount - perPerson;
       } else {
-        balances[person] -= share;
+        balances[person] -= perPerson;
       }
     }
   }

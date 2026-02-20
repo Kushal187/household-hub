@@ -4,7 +4,7 @@ import { MongoClient } from "mongodb";
 const uri = process.env.MONGODB_URI || "mongodb://localhost:27017";
 const client = new MongoClient(uri);
 
-const titles = [
+const choreTitles = [
   "Clean kitchen",
   "Vacuum living room",
   "Take out trash",
@@ -32,7 +32,7 @@ const titles = [
   "Clean stovetop",
 ];
 
-const descriptions = [
+const choreDescriptions = [
   "Wipe counters, do dishes, mop floor",
   "Use vacuum on all carpeted areas",
   "Take all bins to the curb",
@@ -64,42 +64,40 @@ const people = ["Harsh", "Kushal", "Alice", "Bob", "Charlie"];
 const statuses = ["pending", "claimed", "completed"];
 
 function randomDate(start, end) {
-  const d = new Date(
+  return new Date(
     start.getTime() + Math.random() * (end.getTime() - start.getTime()),
   );
-  return d.toISOString().split("T")[0];
 }
 
-function generateChores(count) {
+function generateChores(n) {
   const chores = [];
-  const startDate = new Date("2025-09-01");
-  const endDate = new Date("2026-02-15");
-  const deadlineStart = new Date("2026-01-01");
-  const deadlineEnd = new Date("2026-03-31");
-
-  for (let i = 0; i < count; i++) {
-    const titleIndex = i % titles.length;
+  for (let i = 0; i < n; i++) {
+    const idx = i % choreTitles.length;
     const status = statuses[Math.floor(Math.random() * statuses.length)];
     const createdBy = people[Math.floor(Math.random() * people.length)];
-    const createdDate = randomDate(startDate, endDate);
+    const created = randomDate(new Date("2025-09-01"), new Date("2026-02-15"));
 
-    const chore = {
-      title: titles[titleIndex],
-      description: descriptions[titleIndex],
+    // only give a deadline sometimes
+    let deadline = null;
+    if (Math.random() > 0.3) {
+      deadline = randomDate(new Date("2026-01-01"), new Date("2026-03-31"))
+        .toISOString()
+        .split("T")[0];
+    }
+
+    chores.push({
+      title: choreTitles[idx],
+      description: choreDescriptions[idx],
       assignedTo:
         status !== "pending"
           ? people[Math.floor(Math.random() * people.length)]
           : "",
       createdBy,
       status,
-      deadline:
-        Math.random() > 0.3 ? randomDate(deadlineStart, deadlineEnd) : null,
-      createdAt: new Date(createdDate).toISOString(),
-    };
-
-    chores.push(chore);
+      deadline,
+      createdAt: created.toISOString(),
+    });
   }
-
   return chores;
 }
 
@@ -110,11 +108,11 @@ async function seed() {
     const collection = db.collection("chores");
 
     await collection.deleteMany({});
-    console.log("Cleared existing chores");
+    console.log("Cleared chores collection");
 
     const chores = generateChores(1000);
     await collection.insertMany(chores);
-    console.log(`Seeded ${chores.length} chore records`);
+    console.log("Inserted", chores.length, "chores");
   } catch (err) {
     console.error("Seeding failed:", err);
   } finally {
