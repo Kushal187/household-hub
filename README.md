@@ -7,10 +7,21 @@ A web app for roommates to manage household chores and split shared expenses wit
 - **Harsh Raj** — Expense Tracking & Balance Management
 - **Sanjeev Kushal Pendekanti** — Chore Management & Household Task Board
 
-## Class Link
+## Course Details
 
-<!-- TODO: add your course/Canvas link here -->
-[CS XXXX — Web Development](https://example.com)
+**Course:** [CS 5610 — Web Development](https://johnguerra.co/classes/webDevelopment_online_spring_2026/)
+
+**Professor:** [John Alexis Guerra Gomez](https://johnguerra.co/)
+
+**Semester:** Spring 2026
+
+## Links
+
+[View Deployed App](https://household-hub.onrender.com)
+
+[View Demo Video](https://youtu.be/I_h4rmIb-Jw)
+
+[View Design Document](https://drive.google.com/file/d/1i8L19Vx-DG5eBC665hJToumV3JLX7jU9/view?usp=sharing)
 
 ## Project Objective
 
@@ -18,10 +29,27 @@ HouseholdHub helps people living together coordinate two of the biggest sources 
 
 Each feature works independently — you can use just the chore board or just the expense tracker depending on what your household needs.
 
-## Screenshot
+## Screenshots
 
-<!-- TODO: add a screenshot of the app here -->
-![HouseholdHub Dashboard](screenshot.png)
+**Landing Page**
+
+![Landing Page](screenshots/landing.png)
+
+**Dashboard**
+
+![Dashboard](screenshots/dashboard.png)
+
+**Chores**
+
+![Chores Page](screenshots/chores.png)
+
+**Expenses**
+
+![Expenses Page](screenshots/expenses.png)
+
+**People**
+
+![People Page](screenshots/people.png)
 
 ## Tech Stack
 
@@ -40,28 +68,33 @@ Each feature works independently — you can use just the chore board or just th
 ### Installation
 
 1. Clone the repo:
+
    ```bash
    git clone https://github.com/Kushal187/household-hub.git
    cd household-hub
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
 3. Create a `.env` file in the root (see `.env.example`):
+
    ```
    MONGODB_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/
    PORT=3000
    ```
 
 4. Seed the database with sample data (1000+ records per collection):
+
    ```bash
    npm run seed
    ```
 
 5. Start the server:
+
    ```bash
    npm run dev
    ```
@@ -70,15 +103,15 @@ Each feature works independently — you can use just the chore board or just th
 
 ### Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `npm start` | Start the server |
-| `npm run dev` | Start with nodemon (auto-restart) |
-| `npm run seed` | Seed all collections with sample data |
-| `npm run seed:chores` | Seed only chores |
-| `npm run seed:expenses` | Seed only expenses |
-| `npm run lint` | Run ESLint |
-| `npm run format` | Format code with Prettier |
+| Command                 | Description                           |
+| ----------------------- | ------------------------------------- |
+| `npm start`             | Start the server                      |
+| `npm run dev`           | Start with nodemon (auto-restart)     |
+| `npm run seed`          | Seed all collections with sample data |
+| `npm run seed:chores`   | Seed only chores                      |
+| `npm run seed:expenses` | Seed only expenses                    |
+| `npm run lint`          | Run ESLint                            |
+| `npm run format`        | Format code with Prettier             |
 
 ## Project Structure
 
@@ -107,14 +140,15 @@ household-hub/
 
 ## AI Disclosure
 
-We used Claude (Anthropic) in a limited capacity during development:
+We used Claude 4.6 (Anthropic) in a limited capacity during development:
 
 - **Seed data generation** — helped write the seed scripts that produce 1000+ sample records for chores and expenses, since writing that much fake data by hand wasn't practical.
 - **CSS layout debugging** — used it a couple times to troubleshoot flexbox/grid issues on the expense table and balance cards.
-- **Express route order** — asked about why the `/balances` endpoint needed to come before `/:id` to avoid route conflicts.
+- **JavaScript** — used it to figure out some client- and server-side JavaScript (e.g. API calls, DOM updates)
+- **README** — used it to help draft and structure this README.
 
 All application logic, database queries, frontend rendering, and project architecture were written by us. We referenced the [MongoDB Node.js driver docs](https://www.mongodb.com/docs/drivers/node/current/) and [Express 5 docs](https://expressjs.com/) throughout.
 
 ## License
 
-[MIT](https://opensource.org/licenses/MIT)
+[MIT](/LICENSE)
