@@ -64,6 +64,17 @@ router.delete("/:id", async (req, res) => {
   try {
     const deleted = await deletePerson(req.params.id);
     if (!deleted) return res.status(404).json({ error: "Person not found" });
+
+    // fix
+    await db.collection("chores").updateMany(
+      { createdBy: deleted.name },
+      { $set: { createdBy: "Deleted User" } }
+    );
+    await db.collection("expenses").updateMany(
+      { paidBy: deleted.name },
+      { $set: { paidBy: "Deleted User" } }
+    );
+    
     res.json({ message: "Person deleted" });
   } catch (err) {
     console.log("delete person failed:", err.message);
