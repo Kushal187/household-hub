@@ -235,8 +235,14 @@ async function completeChore(id) {
 async function removeChore(id) {
   if (!confirm("Are you sure you want to delete this chore?")) return;
   try {
-    await fetch(`/api/chores/${id}`, { method: "DELETE" });
+    //await fetch(`/api/chores/${id}`, { method: "DELETE" });
+    //showToast("Chore deleted");
+
+    //fix
+    const res = await fetch(`/api/chores/${id}`, { method: "DELETE" });
+    if (!res.ok) { showToast("Failed to delete chore", "error"); return; }
     showToast("Chore deleted");
+    
     fetchChores(currentPage);
   } catch (err) {
     console.log(err);
